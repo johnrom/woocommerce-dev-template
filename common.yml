@@ -1,0 +1,42 @@
+woo_dev_files:
+  image: johnrom/docker-wordpress-wp-cli-xdebug
+  command: /bin/true
+
+woo_dev_site:
+  restart: always
+  image: johnrom/docker-wordpress-wp-cli-xdebug
+  working_dir: /var/www/html
+  expose:
+    - "80"
+    - "443"
+  environment:
+    - HTTPS_METHOD=noredirect
+    - XDEBUG_CONFIG
+
+woo_dev_db:
+  restart: always
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: example
+
+woo_dev_pma:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      - HTTPS_METHOD=noredirect
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=example
+      - PHP_UPLOAD_MAX_FILESIZE=256M
+    expose:
+      - "80"
+      - "443"
+
+woo_dev_webgrind:
+    image: devgeniem/webgrind
+    restart: always
+    expose:
+      - "80"
+      - "443"
+    environment:
+      - HTTPS_METHOD=noredirect

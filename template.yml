@@ -1,0 +1,54 @@
+
+### PROJECT_start ###
+
+PROJECT_www:
+  container_name: PROJECT_www
+  extends:
+    file: COMMON
+    service: woo_dev_files
+  volumes:
+    - NIMBLE/sites/PROJECT/www:/var/www/html
+    - NIMBLE/sites/PROJECT/cachegrind:/tmp/cachegrind
+    - NIMBLE/sites/PROJECT/_conf/z-05-php-project.ini:/usr/local/etc/php/conf.d/z-05-php-project.ini
+
+PROJECT:
+  container_name: PROJECT
+  extends:
+    file: COMMON
+    service: woo_dev_site
+  volumes_from:
+    - PROJECT_www
+  environment:
+    - VIRTUAL_HOST=PROJECT.TLD
+  links:
+    - PROJECT_db:mysql
+
+PROJECT_db:
+  container_name: PROJECT_db
+  extends:
+    file: COMMON
+    service: woo_dev_db
+  volumes:
+    - PROJECT_db_volume:/var/lib/mysql
+
+PROJECT_pma:
+  container_name: PROJECT_pma
+  extends:
+    file: COMMON
+    service: woo_dev_pma
+  environment:
+    - VIRTUAL_HOST=phpmyadmin.PROJECT.TLD
+  links:
+    - PROJECT_db:mysql
+
+PROJECT_webgrind:
+  container_name: PROJECT_webgrind
+  extends:
+    file: COMMON
+    service: woo_dev_webgrind
+  environment:
+    - VIRTUAL_HOST=webgrind.PROJECT.TLD
+  volumes:
+    - NIMBLE/sites/PROJECT/cachegrind:/tmp/xdebug
+
+### PROJECT_end ###
