@@ -18,4 +18,6 @@ if [ ! -d "$site_root/$project/www/wp-content/plugins/woocommerce/tests" ]; then
     exit 1
 fi
 
-bashitup $project "export WP_CORE_DIR=$inner_dir && cd $inner_dir/wp-content/plugins/woocommerce && export WP_TESTS_DIR=$inner_dir/tests && ./tests/bin/install.sh woootests root example mysql"
+wp_version=$(nimble bashraw $project wp core version)
+
+bashitup $project "export WP_CORE_DIR=$inner_dir && cd $inner_dir/wp-content/plugins/woocommerce && export WP_TESTS_DIR=$inner_dir/tests && ./tests/bin/install.sh woootests root example mysql $wp_version"

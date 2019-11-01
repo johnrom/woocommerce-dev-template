@@ -13,8 +13,8 @@ woocommerce_init(){
     fi
 
     if confirm "Would you like to clone WooCommerce?" Y; then
-        echo "Cloning git@github.com:woocommerce/woocommerce.git ..."
-        git clone "git@github.com:woocommerce/woocommerce.git" "$woo_dir"
+        echo "Cloning https://github.com/woocommerce/woocommerce.git ..."
+        git clone "https://github.com/woocommerce/woocommerce.git" "$woo_dir"
     fi
 
     cd "$woo_dir" && npm_install
@@ -54,6 +54,12 @@ woocommerce_init(){
             cd $woo_dir && composer install
             cd -
         fi
+    fi
+
+    if confirm "Would you like to install the unit test framework?" Y; then
+        echo "Running Woo Test Install"
+
+        nimble install-tests "$project"
     fi
 }
 

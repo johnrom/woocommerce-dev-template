@@ -13,6 +13,21 @@ woo_dev_site:
     - HTTPS_METHOD=noredirect
     - XDEBUG_CONFIG
 
+woo_dev_files_local:
+  build: IMAGES/johnrom/docker-wordpress-wp-cli-xdebug
+  command: /bin/true
+
+woo_dev_site_local:
+  restart: always
+  build: IMAGES/johnrom/docker-wordpress-wp-cli-xdebug
+  working_dir: /var/www/html
+  expose:
+    - "80"
+    - "443"
+  environment:
+    - HTTPS_METHOD=noredirect
+    - XDEBUG_CONFIG
+
 woo_dev_db:
   restart: always
   image: mariadb
